@@ -28,16 +28,42 @@ Blockchain.blocks.push({
 });
 
 // TODO: insert each line into blockchain
-// for (let line of poem) {
-// }
+for (let line of poem) {
+	createBlock(line)
 
-// console.log(`Blockchain is valid: ${verifyChain(Blockchain)}`);
+}
+
+// Create a function called createBlock()
+// Index
+// PrevHash
+// Data
+// Timestamp
+// Hash
+
+function createBlock(_data) {
+	let block = {
+		index: Blockchain.blocks.length,
+		prevHash: Blockchain.blocks[Blockchain.blocks.length -1].hash,
+		data: _data,
+		timestamp: Date.now()
+	}
+	block.hash = blockHash(block)
+	Blockchain.blocks.push(block)
+	console.log(block)
+	return block
+}
+
+console.log(`Blockchain is valid: ${verifyChain(Blockchain)}`);
 
 
 // **********************************
 
 function blockHash(bl) {
+
+//	let block = JSON.stringify(Bl)
 	return crypto.createHash("sha256").update(
 		// TODO: use block data to calculate hash
+		`${bl.index};${bl.prevHash};${bl.data};${bl.timestamp};`
+		//block
 	).digest("hex");
 }
